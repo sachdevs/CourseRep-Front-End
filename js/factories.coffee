@@ -12,15 +12,15 @@ myServices.factory 'ApiFactory', ['Restangular', (Restangular) ->
     getCourses: () ->
       Restangular.all('courses/').getList()
     getCourse: (course_id) ->
-      Restangular.one('courses', course_id).get()
+      Restangular.one('courses', course_id).one('').get()
     getTopics: (course_id) ->
       Restangular.all('topics/', course_id).getList()
-    getTopic: (course_id, topic_id) ->
-      Restangular.one('courses', course_id).one('topics', topic_id).get()
-    getResources: (topic_id) ->
-      Restangular.all('resources/', topic_id).getList()
+    getTopic: (topic_id) ->
+      Restangular.one('topics', topic_id).one('').get()
+    getResources: () ->
+      Restangular.all('resources/').getList()
     getResource: (resource_id) ->
-      Restangular.one('resources', resource_id).get()
+      Restangular.one('resources', resource_id).one('').get()
     createResource: (title, content, topic_id, author_id) ->
       Restangular.all('resources/').customPOST({
         title: title

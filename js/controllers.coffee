@@ -7,25 +7,37 @@ app.controller 'HomeCtrl',['$scope', ($scope)->
 
 app.controller 'CoursesCtrl',['$scope', 'ApiFactory', 'AuthFactory', '$sce', '$modal', ($scope, ApiFactory, AuthFactory, $sce, $modal)->
   $scope.authf = AuthFactory
-  AuthFactory.login({username: 'penis', password: 'vagina'})
-  ApiFactory.getCourses().then (courses)->
-    $scope.courses = courses
-    _.each($scope.courses, (course) ->
-      _.each(course.topic_set, (set) ->
-        topic_set_id = set.split('/')
-        topic_set_id = topic_set_id[topic_set_id.length - 2]
-        ApiFactory.getTopics(topic_set_id).then (topics) ->
-          course.topics = topics
-          _.each(course.topics, (topic) ->
+  current_user = AuthFactory.current_user
+  $scope.openLoginModal = () ->
+    $modal.open {
+      templateUrl: '/partial/login_modal.html'
+      controller: 'LoginModalCtrl'
+    }
+  after_login = () ->
+    current_user = AuthFactory.current_user
+    ApiFactory.getCourses().then (courses)->
+      $scope.courses = _.filter(courses, (course) -> _.contains(course.users, window.urlbase + '/users/' + current_user.id + '/' ))
+      _.each($scope.courses, (course) ->
+        course.topics = []
+        _.each(course.topic_set, (set) ->
+          topic_set_id = set.split('/')
+          topic_set_id = topic_set_id[topic_set_id.length - 2]
+          ApiFactory.getTopic(topic_set_id).then (topic) ->
+            course.topics.push topic
+            topic.resources = []
             _.each(topic.resource_set, (rset) ->
               resource_set_id = rset.split('/')
               resource_set_id = resource_set_id[resource_set_id.length - 2]
-              ApiFactory.getResources(resource_set_id).then (resources) ->
-                topic.resources = resources
+              ApiFactory.getResource(resource_set_id).then (resource) ->
+                topic.resources.push resource
             )
           )
-        )
-    )
+      )
+    $scope.refreshVotes()
+  if !current_user
+    $scope.openLoginModal().result.then(after_login)
+  else
+    after_login()
   $scope.refreshVotes = () ->
     ApiFactory.getVotes().then (votes) ->
       votes = _.map(votes, (vote) ->
@@ -41,7 +53,6 @@ app.controller 'CoursesCtrl',['$scope', 'ApiFactory', 'AuthFactory', '$sce', '$m
         }
       )
       $scope.votes = votes
-  $scope.refreshVotes()
 
   $scope.selectCourse = (course) ->
     $scope.selected_course = course
@@ -52,6 +63,10 @@ app.controller 'CoursesCtrl',['$scope', 'ApiFactory', 'AuthFactory', '$sce', '$m
   $scope.getVote = (resource) ->
     val = _.find($scope.votes, (vote) -> vote.resource == resource.id)
     val && val.value
+  $scope.open = (content) ->
+    valid_url_regex = /^http[^<>]*/i
+    if content.match valid_url_regex
+      window.location.assign(content)
   $scope.openResourceModal = () ->
     modalInstance = $modal.open {
       templateUrl: '/partial/resource_modal.html'
@@ -84,4 +99,15 @@ app.controller 'ResourceModalCtrl',['$scope', '$modalInstance', ($scope, $modalI
     $modalInstance.dismiss()
   $scope.ok = (resource) ->
     $modalInstance.close($scope.resource)
+]
+
+app.controller 'LoginModalCtrl',['$scope', '$modalInstance', 'AuthFactory', ($scope, $modalInstance, AuthFactory)->
+  $scope.login = (credentials) ->
+    AuthFactory.login(credentials).then (user) ->
+      if user
+        $modalInstance.close()
+      else
+        alert user
+    () ->
+      alert 'An Error Occured'
 ]

@@ -12,11 +12,11 @@
     </div>
   </div>
   <div class="col-sm-8 col-sm-offset-4">
-    <div id="resources-bar" class="row">
+    <div id="resources-bar" class="row" ng-class="{'exist': selected_topic}">
       <h1 style="display: inline-block;">{{selected_topic.name}} </h1>
       <button ng-click='openResourceModal()' class="btn btn-default" ng-show='selected_topic'>Add Resource</button>
       <ul class="list-unstyled">
-          <li ng-repeat='resource in selected_topic.resources'>
+          <li ng-repeat='resource in selected_topic.resources|orderBy:"-points"'>
             <div class="col-sm-1">
               <span class="vote-buttons">
                 <div class="glyphicon glyphicon-arrow-up" ng-click='vote(resource, 1)' ng-class="{'red': getVote(resource) == 1}"></div>
@@ -26,7 +26,7 @@
                 {{resource.points}}
               </span>
             </div>
-            <div id="white-box" class="col-sm-11">
+            <div id="white-box" class="col-sm-11" ng-click='open(resource.content)'>
               <div class="resource-title">
                 <h1 style="display: inline-block;">{{resource.title}}</h1>
               </div>

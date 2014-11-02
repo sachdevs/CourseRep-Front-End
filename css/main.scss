@@ -5,6 +5,7 @@ $menu_background: #314E5A;
 
 @import "bootstrap";
 body {
+  overflow-x: hidden;
   padding-top: 55px;
   background: $background_main;
 }
@@ -40,13 +41,12 @@ body {
       background-color: #18313B;
     }
   }
-  .topics {
-    background-color: #416270;
-  }
 }
-.col-sm-3{
-  margin: 0px;
-  padding: 0px;
+#topics-bar {
+  margin-left: 0px;
+  padding-left: 20px;
+  overflow-x: hidden;
+  background-color: #416270;
 }
 
 .red {

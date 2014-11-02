@@ -60,10 +60,15 @@ body {
 }
 #topics-bar {
   left: 16.6666667%;
-  width: 16.6666667%;
+  width: 0;
+  padding: 0;
   margin-left: 0px;
-  padding-right: 2.5px;
   overflow-x: hidden;
+  transition: width 0.3s ease;
+  &.exist{
+    width: 16.66666667%;
+    padding-right: 2.5px;
+  }
   background-color: #416270;
   .topics {
     margin-right: 0px;

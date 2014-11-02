@@ -6,6 +6,31 @@ body {
   padding-top: 55px;
 }
 
+.bar {
+  min-height: 800px;
+  margin-left: 20px;
+  padding: 5px;
+  margin-top: 10px;
+  border-radius: 20px;
+  background-color: #eeeeee;
+  .course {
+    padding-left: 30px;
+    border-radius: 20px;
+    h4 {
+      font-size: 1.7em;
+    }
+    &:hover {
+      background-color: #dddddd;
+    }
+    &.active {
+      &:hover {
+        background-color: #ddd;
+      }
+      background-color: #ccc;
+    }
+  }
+}
+
 .vote-buttons
 {
   display: inline-block;

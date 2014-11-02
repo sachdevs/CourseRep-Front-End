@@ -1,25 +1,21 @@
 <div class="row">
-  <div class="col-sm-2">
-    <div id="courses-bar">
+  <div class="col-sm-3">
+    <div class="bar" id="courses-bar">
       <h1>Your Courses</h1>
-      <ul>
-          <li ng-repeat="course in courses" ng-click='selectCourse(course)'>
-            <h4>{{course.code}}</h4>
-          </li>
-      </ul>
+        <div ng-repeat="course in courses" ng-click='selectCourse(course)' ng-class="{'active': course == selected_course}" class="course">
+          <h4>{{course.code}}</h4>
+        </div>
     </div>
   </div>
-  <div class="col-sm-2">
-    <div id="topics-bar">
+  <div class="col-sm-3">
+    <div class="bar" id="topics-bar">
       <h1>{{selected_course.code}}</h1>
-      <ul>
-          <li ng-repeat='topic in selected_course.topics' ng-click='selectTopic(topic)'>
-            <h4>{{topic.name}}</h4>
-          </li>
-      </ul>
+      <div class="course" ng-repeat='topic in selected_course.topics' ng-click='selectTopic(topic)' ng-class="{'active': topic == selected_topic}">
+        <h4>{{topic.name}}</h4>
+      </div>
     </div>
   </div>
-  <div class="col-sm-8">
+  <div class="col-sm-6">
     <div id="resources-bar" class="row">
       <h1 style="display: inline-block;">{{selected_topic.name}} </h1>
       <button ng-click='openResourceModal()' class="btn btn-default" ng-show='selected_topic'>Add Resource</button>
@@ -27,8 +23,8 @@
           <li ng-repeat='resource in selected_topic.resources'>
             <div class="col-sm-1">
               <span class="vote-buttons">
-                <div class="glyphicon glyphicon-arrow-up"></div>
-                <div class="glyphicon glyphicon-arrow-down"></div>
+                <div class="glyphicon glyphicon-arrow-up" ng-click='upVote(resource)'></div>
+                <div class="glyphicon glyphicon-arrow-down" ng-click='downVote(resource)'></div>
               </span>
             </div>
             <div class="col-sm-11">

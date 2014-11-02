@@ -8,13 +8,15 @@ $menu_background: #314E5A;
 body {
   font-family: "Muli";
   overflow-x: hidden;
-  overflow-y: hidden;
   padding-top: 55px;
   background: $background_main;
 }
 
 .bar {
   min-height: 800px;
+  position: fixed;
+  width: 16.6666666%;
+  left: 0;
   margin-left: 0px;
   padding: 8px;
   padding-left: 10px;
@@ -57,6 +59,8 @@ body {
   to{right:0px;}
 }
 #topics-bar {
+  left: 16.6666667%;
+  width: 16.6666667%;
   margin-left: 0px;
   padding-right: 2.5px;
   overflow-x: hidden;
@@ -81,16 +85,6 @@ body {
       background-color: $background_main;
     }
   }
-}
-#courses-bar {
-  padding-right: 0;
-}
-#topics-bar {
-  padding-right: 0;
-}
-#resources-bar {
-  overflow-y: scroll;
-  height: 550px;
 }
 
 .nopad {

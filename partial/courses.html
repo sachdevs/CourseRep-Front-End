@@ -1,21 +1,17 @@
 <div class="row">
-  <div class="col-sm-2 nopad">
-    <div class="bar" id="courses-bar">
-      <h1>Courses</h1>
-        <div ng-repeat="course in courses" ng-click='selectCourse(course)' ng-class="{'active': course == selected_course}" class="course">
-          <h4>{{course.code}}</h4>
-        </div>
-    </div>
-  </div>
-  <div class="col-sm-2 nopad2">
-    <div class="bar" id="topics-bar">
-      <h1>{{selected_course.code}}</h1>
-      <div class="topics" ng-repeat='topic in selected_course.topics' ng-click='selectTopic(topic)' ng-class="{'active': topic == selected_topic}">
-        <h4>{{topic.name}}</h4>
+  <div class="bar" id="courses-bar">
+    <h1>Courses</h1>
+      <div ng-repeat="course in courses" ng-click='selectCourse(course)' ng-class="{'active': course == selected_course}" class="course">
+        <h4>{{course.code}}</h4>
       </div>
+  </div>
+  <div class="bar" id="topics-bar" ng-class="{'exist': selected_course}">
+    <h1>{{selected_course.code}}</h1>
+    <div class="topics" ng-repeat='topic in selected_course.topics' ng-click='selectTopic(topic)' ng-class="{'active': topic == selected_topic}">
+      <h4>{{topic.name}}</h4>
     </div>
   </div>
-  <div class="col-sm-8">
+  <div class="col-sm-8 col-sm-offset-4">
     <div id="resources-bar" class="row">
       <h1 style="display: inline-block;">{{selected_topic.name}} </h1>
       <button ng-click='openResourceModal()' class="btn btn-default" ng-show='selected_topic'>Add Resource</button>

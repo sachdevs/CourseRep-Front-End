@@ -40,5 +40,18 @@ app.controller 'CoursesCtrl',['$scope', 'ApiFactory', 'AuthFactory', '$sce', '$m
     }
 
     modalInstance.result.then (res) ->
-      ApiFactory.createResource(res.content, res.topic_id, res.author_id)
+      res.topic_id = $scope.selected_topic.id
+      res.author_id = AuthFactory.current_user.id
+      ApiFactory.createResource(res.title, res.content, res.topic_id, res.author_id).then (resource) ->
+        $scope.selected_topic.resources.push resource
+  $scope.upVote = (resource) ->
+    
+]
+
+app.controller 'ResourceModalCtrl',['$scope', '$modalInstance', ($scope, $modalInstance)->
+  $scope.resource = {}
+  $scope.dismiss = () ->
+    $modalInstance.dismiss()
+  $scope.ok = (resource) ->
+    $modalInstance.close($scope.resource)
 ]

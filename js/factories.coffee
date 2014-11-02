@@ -19,11 +19,14 @@ myServices.factory 'ApiFactory', ['Restangular', (Restangular) ->
       Restangular.all('resources/', topic_id).getList()
     getResource: (resource_id) ->
       Restangular.one('resources', resource_id).get()
-    createResource: (content, topic_id, author_id) ->
-      Restangular.all('resources').customPOST({
+    createResource: (title, content, topic_id, author_id) ->
+      Restangular.all('resources/').customPOST({
+        title: title
         content: content
         topic: window.urlbase + '/topics/' + topic_id + '/'
         author: window.urlbase + '/users/' + author_id + '/'
+        viewcount: 0,
+        points: 1
       })
   }
 ]
@@ -34,13 +37,15 @@ myServices.factory 'AuthFactory', ['Restangular', '$window', '$q', (Restangular,
       deferred = $q.defer()
       obj = {'Authorization': 'Basic ' + btoa(credentials.username + ':' + credentials.password)}
       Restangular.setDefaultHeaders(obj)
+      authf = this
 
       response = Restangular.all('users/').getList().then((scc) ->
-        this._isLoggedIn = true
+        authf._isLoggedIn = true
+        authf.current_user = _.find(scc, (user) -> user.username == credentials.username)
         deferred.resolve(true)
       , (err) ->
-        this.errors = [err]
-        deferred.reject(this.errors)
+        authf.errors = [err]
+        deferred.reject(authf.errors)
       )
       return deferred.promise
     ,

@@ -15,43 +15,68 @@ body {
 .bar {
   min-height: 800px;
   margin-left: 0px;
-  padding: 5px;
-  padding-left: 30px;
+  padding: 8px;
+  padding-left: 10px;
   margin-top: 0px;
   background-color: $menu_background;
   font-family: "Muli";
   color: white;
   h1 {
       font-size: 2em;
+      padding-left: 40px;
   }
   .course {
-    margin-right: 5px;
+    margin: 0px;
     padding-left: 0px;
-    border-radius: 2.5px;
+    padding-right: 0px;
     h4 {
       font-size: 1.5em;
       padding: 6px;
       border-radius: 20px;
     }
     &:hover {
-      background-color: #416270;
+      background-color: #18313B;
       cursor: pointer;
     }
     &.active {
       &:hover {
-        background-color: #18313B;
+        background-color: #416270;
       }
-      background-color: #18313B;
+      background-color: #416270;
     }
   }
 }
 #topics-bar {
   margin-left: 0px;
-  padding-left: 20px;
+  padding-right: 2.5px;
   overflow-x: hidden;
   background-color: #416270;
+  .topics {
+    margin-right: 0px;
+    padding-left: 0px;
+    h4 {
+      font-size: 1.5em;
+      padding: 6px;
+      border-radius: 20px;
+    }
+    &:hover {
+      background-color: #18313B;
+      cursor: pointer;
+    }
+    &.active {
+      &:hover {
+        background-color: $background_main;
+      }
+      background-color: $background_main;
+    }
+  }
 }
-
+#courses-bar {
+  padding-right: 0;
+}
+#topics-bar {
+  padding-right: 0;
+}
 #resources-bar {
   overflow-y: scroll;
   height: 550px;

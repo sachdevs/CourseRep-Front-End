@@ -14,8 +14,9 @@ app.controller 'CoursesCtrl',['$scope', 'ApiFactory', 'AuthFactory', '$sce', '$m
       controller: 'LoginModalCtrl'
     }
   after_login = () ->
+    current_user = AuthFactory.current_user
     ApiFactory.getCourses().then (courses)->
-      $scope.courses = courses
+      $scope.courses = _.filter(courses, (course) -> _.contains(course.users, window.urlbase + '/users/' + current_user.id + '/' ))
       _.each($scope.courses, (course) ->
         course.topics = []
         _.each(course.topic_set, (set) ->

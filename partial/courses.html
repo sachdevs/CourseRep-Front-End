@@ -23,8 +23,11 @@
           <li ng-repeat='resource in selected_topic.resources'>
             <div class="col-sm-1">
               <span class="vote-buttons">
-                <div class="glyphicon glyphicon-arrow-up" ng-click='upVote(resource)'></div>
-                <div class="glyphicon glyphicon-arrow-down" ng-click='downVote(resource)'></div>
+                <div class="glyphicon glyphicon-arrow-up" ng-click='vote(resource, 1)' ng-class="{'red': getVote(resource) == 1}"></div>
+                <div class="glyphicon glyphicon-arrow-down" ng-click='vote(resource, -1)' ng-class="{'blue': getVote(resource) == -1}"></div>
+              </span>
+              <span>
+                {{resource.points}}
               </span>
             </div>
             <div class="col-sm-11">

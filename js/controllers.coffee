@@ -26,6 +26,22 @@ app.controller 'CoursesCtrl',['$scope', 'ApiFactory', 'AuthFactory', '$sce', '$m
           )
         )
     )
+  $scope.refreshVotes = () ->
+    ApiFactory.getVotes().then (votes) ->
+      votes = _.map(votes, (vote) ->
+        voter = vote.voter.split('/')
+        voter = voter[voter.length - 2] # Get voter id
+        resource = vote.resource.split('/')
+        resource = resource[resource.length - 2] # Get resource id
+        return {
+          id: vote.id
+          value: vote.value
+          voter: parseInt(voter)
+          resource: parseInt(resource)
+        }
+      )
+      $scope.votes = votes
+  $scope.refreshVotes()
 
   $scope.selectCourse = (course) ->
     $scope.selected_course = course
@@ -33,6 +49,9 @@ app.controller 'CoursesCtrl',['$scope', 'ApiFactory', 'AuthFactory', '$sce', '$m
     $scope.selected_topic = topic
   $scope.trust = (stuff) ->
     $sce.trustAsHtml(stuff)
+  $scope.getVote = (resource) ->
+    val = _.find($scope.votes, (vote) -> vote.resource == resource.id)
+    val && val.value
   $scope.openResourceModal = () ->
     modalInstance = $modal.open {
       templateUrl: '/partial/resource_modal.html'
@@ -44,8 +63,19 @@ app.controller 'CoursesCtrl',['$scope', 'ApiFactory', 'AuthFactory', '$sce', '$m
       res.author_id = AuthFactory.current_user.id
       ApiFactory.createResource(res.title, res.content, res.topic_id, res.author_id).then (resource) ->
         $scope.selected_topic.resources.push resource
-  $scope.upVote = (resource) ->
-    
+  $scope.vote = (resource, value) ->
+    existing_vote = _.find($scope.votes, (vote) -> vote.resource == resource.id)
+    if existing_vote
+      delta = value - existing_vote.value
+      ApiFactory.updateVote(value, existing_vote.id, resource.id, AuthFactory.current_user.id).then (vote) ->
+        $scope.refreshVotes()
+        ApiFactory.updatePoints(resource, resource.points + delta).then (res) ->
+          _.extend(_.find($scope.selected_topic.resources, (reso) -> reso.id == res.id), res)
+    else
+      ApiFactory.createVote(value, resource.id, AuthFactory.current_user.id).then (vote) ->
+        $scope.refreshVotes()
+        ApiFactory.updatePoints(resource, resource.points + value).then (res) ->
+          _.extend(_.find($scope.selected_topic.resources, (reso) -> reso.id == res.id), res)
 ]
 
 app.controller 'ResourceModalCtrl',['$scope', '$modalInstance', ($scope, $modalInstance)->

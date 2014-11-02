@@ -7,6 +7,8 @@ myServices = angular.module 'theApp'
 
 myServices.factory 'ApiFactory', ['Restangular', (Restangular) ->
   {
+    getVotes: () ->
+      Restangular.all('votes/').getList()
     getCourses: () ->
       Restangular.all('courses/').getList()
     getCourse: (course_id) ->
@@ -27,6 +29,27 @@ myServices.factory 'ApiFactory', ['Restangular', (Restangular) ->
         author: window.urlbase + '/users/' + author_id + '/'
         viewcount: 0,
         points: 1
+      })
+    createVote: (value, resource_id, user_id) ->
+      Restangular.all('votes/').customPOST({
+        value: value
+        resource: window.urlbase + '/resources/' + resource_id + '/'
+        voter: window.urlbase + '/users/' + user_id + '/'
+      })
+    updateVote: (value, vote_id, resource_id, user_id) ->
+      Restangular.one('votes', vote_id).all('').customPUT({
+        value: value
+        resource: window.urlbase + '/resources/' + resource_id + '/'
+        voter: window.urlbase + '/users/' + user_id + '/'
+      })
+    updatePoints: (resource, points) ->
+      Restangular.one('resources/' + resource.id + '/').customPUT({
+        points: points
+        author: resource.author
+        content: resource.content
+        title: resource.title
+        topic: resource.topic
+        viewcount: resource.viewcount
       })
   }
 ]

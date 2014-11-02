@@ -1,34 +1,52 @@
 ---
 ---
+$background_main: #597886;
+$menu_background: #314E5A;
 
 @import "bootstrap";
 body {
   padding-top: 55px;
+  background: $background_main;
 }
 
 .bar {
   min-height: 800px;
-  margin-left: 20px;
+  margin-left: 0px;
   padding: 5px;
-  margin-top: 10px;
-  border-radius: 20px;
-  background-color: #eeeeee;
+  padding-left: 30px;
+  margin-top: 0px;
+  background-color: $menu_background;
+  color: white;
+  h1 {
+      font-size: 2em;
+  }
   .course {
-    padding-left: 30px;
-    border-radius: 20px;
+    margin-right: 5px;
+    padding-left: 0px;
+    border-radius: 2.5px;
     h4 {
-      font-size: 1.7em;
+      font-size: 1.5em;
+      padding: 6px;
+      border-radius: 20px;
     }
     &:hover {
-      background-color: #dddddd;
+      background-color: #416270;
+      cursor: pointer;
     }
     &.active {
       &:hover {
-        background-color: #ddd;
+        background-color: #18313B;
       }
-      background-color: #ccc;
+      background-color: #18313B;
     }
   }
+  .topics {
+    background-color: #416270;
+  }
+}
+.col-sm-3{
+  margin: 0px;
+  padding: 0px;
 }
 
 .red {

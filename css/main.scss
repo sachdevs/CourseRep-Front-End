@@ -3,5 +3,22 @@
 
 @import "bootstrap";
 body {
-  padding-top: 40px;
+  padding-top: 55px;
+}
+
+.vote-buttons
+{
+  display: inline-block;
+  .glyphicon {
+    display: block !important;
+  }
+  .glyphicon-arrow-down {
+    margin-top: 2px !important;
+    padding-left: 1px !important;
+  }
+}
+
+.resource-title {
+  position: relative;
+  top: 6px;
 }

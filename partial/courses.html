@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-sm-2">
+  <div class="col-sm-2 nopad">
     <div class="bar" id="courses-bar">
       <h1>Courses</h1>
         <div ng-repeat="course in courses" ng-click='selectCourse(course)' ng-class="{'active': course == selected_course}" class="course">
@@ -7,7 +7,7 @@
         </div>
     </div>
   </div>
-  <div class="col-sm-2">
+  <div class="col-sm-2 nopad2">
     <div class="bar" id="topics-bar">
       <h1>{{selected_course.code}}</h1>
       <div class="course" ng-repeat='topic in selected_course.topics' ng-click='selectTopic(topic)' ng-class="{'active': topic == selected_topic}">

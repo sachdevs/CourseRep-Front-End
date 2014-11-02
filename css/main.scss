@@ -1,11 +1,13 @@
 ---
 ---
+
 $background_main: #597886;
 $menu_background: #314E5A;
 
 @import "bootstrap";
 body {
   overflow-x: hidden;
+  overflow-y: hidden;
   padding-top: 55px;
   background: $background_main;
 }
@@ -47,6 +49,19 @@ body {
   padding-left: 20px;
   overflow-x: hidden;
   background-color: #416270;
+}
+
+#resources-bar {
+  overflow-y: scroll;
+  height: 550px;
+}
+
+.nopad {
+  padding: 0px;
+}
+.nopad2 {
+  padding: 0px;
+  padding-right: 10px;
 }
 
 .red {

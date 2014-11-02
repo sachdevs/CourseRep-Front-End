@@ -11,18 +11,18 @@ app.controller 'CoursesCtrl',['$scope', 'ApiFactory', 'AuthFactory', '$sce', '$m
   ApiFactory.getCourses().then (courses)->
     $scope.courses = courses
     _.each($scope.courses, (course) ->
+      course.topics = []
       _.each(course.topic_set, (set) ->
         topic_set_id = set.split('/')
         topic_set_id = topic_set_id[topic_set_id.length - 2]
-        ApiFactory.getTopics(topic_set_id).then (topics) ->
-          course.topics = topics
-          _.each(course.topics, (topic) ->
-            _.each(topic.resource_set, (rset) ->
-              resource_set_id = rset.split('/')
-              resource_set_id = resource_set_id[resource_set_id.length - 2]
-              ApiFactory.getResources(resource_set_id).then (resources) ->
-                topic.resources = resources
-            )
+        ApiFactory.getTopic(topic_set_id).then (topic) ->
+          course.topics.push topic
+          topic.resources = []
+          _.each(topic.resource_set, (rset) ->
+            resource_set_id = rset.split('/')
+            resource_set_id = resource_set_id[resource_set_id.length - 2]
+            ApiFactory.getResource(resource_set_id).then (resource) ->
+              topic.resources.push resource
           )
         )
     )
@@ -52,6 +52,10 @@ app.controller 'CoursesCtrl',['$scope', 'ApiFactory', 'AuthFactory', '$sce', '$m
   $scope.getVote = (resource) ->
     val = _.find($scope.votes, (vote) -> vote.resource == resource.id)
     val && val.value
+  $scope.open = (content) ->
+    valid_url_regex = /^http[^<>]*/i
+    if content.match valid_url_regex
+      window.location.assign(content)
   $scope.openResourceModal = () ->
     modalInstance = $modal.open {
       templateUrl: '/partial/resource_modal.html'

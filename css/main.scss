@@ -118,6 +118,13 @@ body {
 }
 #resources-bar{
   color: black;
+  opacity: 0;
+  padding: 10px;
+  padding-right: 30px;
+  transition: opacity 0.3s ease-in-out;
+  &.exist {
+    opacity: 1;
+  }
 }
 #h1, .h1{
   font-family: "Muli";
